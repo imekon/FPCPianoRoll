@@ -18,6 +18,7 @@ type
     m_manager: TPianoRollManager;
     m_selectedFilter: TPianoRollFilter;
     m_selectedFilterType: TFilterType;
+    m_notesPerOctave: integer;
     m_noteHeight: integer;
     m_ppqn: integer;
 
@@ -34,6 +35,9 @@ type
     property Filter: TFilterType read m_selectedFilterType write SetFilterType default ftChromatic;
     property NoteHeight: integer read m_noteHeight set m_NoteHeight default 20;
     property PPQN: integer read m_ppqn write m_ppqn default 96;
+
+    property Height;
+    property Width;
   end;
 
 procedure Register;
@@ -52,7 +56,13 @@ begin
   if m_selectedFilterType = AValue then Exit;
   m_selectedFilterType := AValue;
 
-  // TODO: set selected filter here
+  m_selectedFilter := m_manager.FindFilter(AValue);
+  if Assigned(m_selectedFilter) then
+    m_notesPerOctave := Length(m_selectedFilter.Notes)
+  else
+    m_notesPerOctave := 12;
+
+  Refresh;
 end;
 
 procedure TPianoRoll.Paint;
@@ -71,6 +81,7 @@ begin
   m_manager := TPianRollManager.Create;
   m_selectedFilter := nil;
   m_selectedFilterType := ftChromatic;
+  m_notesPerOctave := 12;
   m_filterList := TStringList.Create;
 
   m_noteHeight := 20;

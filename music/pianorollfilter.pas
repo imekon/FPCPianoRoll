@@ -20,6 +20,10 @@ type
     m_notes: array of integer;
   public
     constructor Create(aname: string; filterType: TFilterType; anotes: array of integer);
+
+    property Name: string read m_name;
+    property FilterType: TFilterType read m_filterType;
+    property Notes: array of integer read m_notes;
   end;
 
   TPianoRollFilterList = specialize TFPGList<TPianoRollFilter>;
@@ -32,6 +36,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    function FindFilter(filterType: TFilterType): TPianoRollFilter;
   end;
 
 implementation
@@ -66,6 +71,21 @@ begin
 
   m_filters.Free;
   inherited Destroy;
+end;
+
+function TPianoRollManager.FindFilter(filterType: TFilterType
+  ): TPianoRollFilter;
+var
+  filter: TPianoRollFilter;
+
+begin
+  result := nil;
+  for filter in m_filters do
+    if filter.FilterType = filterType then
+    begin
+      result := filter;
+      break;
+    end;
 end;
 
 end.
