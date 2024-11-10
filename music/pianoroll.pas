@@ -10,8 +10,6 @@ uses
 
 type
 
-  TFilterType = (ftChromatic, ftMajor, ftMinor);
-
   { TPianoRoll }
 
   TPianoRoll = class(TCustomControl)

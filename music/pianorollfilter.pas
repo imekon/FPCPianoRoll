@@ -9,14 +9,17 @@ uses
 
 type
 
+  TFilterType = (ftChromatic, ftMajor, ftMinor);
+
   { TPianoRollFilter }
 
   TPianoRollFilter = class
   private
     m_name: string;
+    m_type: TFilterType;
     m_notes: array of integer;
   public
-    constructor Create(aname: string; anotes: array of integer);
+    constructor Create(aname: string; filterType: TFilterType; anotes: array of integer);
   end;
 
   TPianoRollFilterList = specialize TFPGList<TPianoRollFilter>;
@@ -35,9 +38,11 @@ implementation
 
 { TPianoRollFilter }
 
-constructor TPianoRollFilter.Create(aname: string; anotes: array of integer);
+constructor TPianoRollFilter.Create(aname: string; filterType: TFilterType;
+  anotes: array of integer);
 begin
   m_name := aname;
+  m_type := filterType;
   m_notes := aNotes;
 end;
 
@@ -47,8 +52,8 @@ constructor TPianoRollManager.Create;
 begin
   m_filters := TPianoRollFilterList;
 
-  m_filters.Add(TPianoRollFilter.Create('chromatic', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-  m_filters.Add(TPianoRollFilter.Create('major', [0, 2, 4, 6, 7, 9, 11]);
+  m_filters.Add(TPianoRollFilter.Create('Chromatic', ftChromatic, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  m_filters.Add(TPianoRollFilter.Create('Major', ftMajor, [0, 2, 4, 6, 7, 9, 11]);
 end;
 
 destructor TPianoRollManager.Destroy;
