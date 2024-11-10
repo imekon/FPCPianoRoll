@@ -66,11 +66,34 @@ begin
 end;
 
 procedure TPianoRoll.Paint;
+var
+  x, y: integer;
+  note: TPianoRollNote;
+
 begin
   inherited Paint;
 
-  Canvas.MoveTo(0, 100);
-  Canvas.LineTo(Width, 100);
+  for y := 0 to 35 do
+  begin
+    Canvas.MoveTo(0, m_noteHeight * y);
+    Canvas.LineTo(Width, m_noteHeight * y);
+  end;
+
+  for x := 0 to 15 do
+  begin
+    Canvas.MoveTo(x * 24, 0);
+    Canvas.LineTo(x * 24, Height);
+  end;
+
+  Canvas.Pen.Color := clBlack;
+  Canvas.Brush.Color := clYellow;
+  for note in m_notes do
+  begin
+    // TODO: take filtering into account
+    // TODO: reverse Y
+    Canvas.Rectangle(note.Start, note.Note * m_noteHeight,
+      note.Start + note.Length, note.Note * m_noteHeight + m_noteHeight);
+  end;
 end;
 
 constructor TPianoRoll.Create(AOwner: TComponent);
@@ -110,6 +133,8 @@ begin
     note.Free;
 
   m_notes.Clear;
+
+  Refresh;
 end;
 
 procedure TPianoRoll.AddNote(start, length, velocity, anote: integer;
