@@ -1,0 +1,9 @@
+object MainForm: TMainForm
+  Left = 280
+  Height = 533
+  Top = 145
+  Width = 676
+  Caption = 'Piano Roll Test'
+  Position = poDefaultPosOnly
+  LCLVersion = '3.4.0.0'
+end
